@@ -54,3 +54,24 @@ async def search(data: dict):
         logging.error(f"Error in search_wiki: {e}")
         raise HTTPException(status_code=500, detail="Internal server error")
 
+
+def search_wiki(user_input):
+    da = []
+    last_word = user_input.split()[-1]
+    url = "https://en.wikipedia.org/wiki/" + last_word
+    try:
+        response = requests.get(url)
+        soup = BeautifulSoup(response.text, "html.parser")
+        for i in range(len(soup.findAll('p'))):
+            one_a_tag = soup.findAll('p')[i]
+            da.append(one_a_tag.text)
+        json_object = json.dumps(da)
+        return json_object
+
+    except requests.RequestException as e:
+        logging.error(f"Error in search_wiki: {e}")
+        raise HTTPException(status_code=500, detail=f"Failed to fetch data from Wikipedia: {e}")
+
+@app.get("/favicon.ico")
+async def favicon():
+    return {"message": "favicon"}
