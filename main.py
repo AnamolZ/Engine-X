@@ -53,3 +53,4 @@ async def search(data: dict):
     except Exception as e:
         logging.error(f"Error in search_wiki: {e}")
         raise HTTPException(status_code=500, detail="Internal server error")
+
