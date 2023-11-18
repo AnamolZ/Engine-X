@@ -28,3 +28,26 @@ function updateWPM() {
     }
 }
 
+function showSearchResult(data) {
+    const resultArray = JSON.parse(data.result).map(item => item.trim());
+
+    resultArray.forEach((item, index) => {
+        if (item.trim() !== '') {
+            if (index !== 2) {
+                setTimeout(() => {
+                    const highlightedText = highlightText(item);
+                    resultElement.innerHTML = `<p>${highlightedText}</p>`;
+                }, index * 10000);
+            } else {
+                if (resultElement) {
+                    resultElement.innerHTML = `<p>${item}</p>`;
+                    resultElement.style.display = 'block';
+                }
+            }
+        }
+    });
+
+    setTimeout(() => {
+        resultArray.filter(paragraph => paragraph.trim() !== '').join('');
+    }, resultArray.length * 10000);
+}
