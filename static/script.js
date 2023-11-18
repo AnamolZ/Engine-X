@@ -27,3 +27,4 @@ function updateWPM() {
         wpmDisplay.textContent = '🏇🏻 ' + wpm;
     }
 }
+
