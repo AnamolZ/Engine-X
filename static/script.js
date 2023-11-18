@@ -52,3 +52,18 @@ function showSearchResult(data) {
     }, resultArray.length * 10000);
 }
 
+function highlightText(text) {
+    const greenColor = '#006400';
+    const redColor = '#8B0000';
+
+    const highlightedText = text.replace(/\b(\S+)\b/g, (match, word) => {
+        if (word.length % 2 === 0) {
+            return `<span style="color: ${greenColor};">${word}</span>`;
+        } else {
+            return `<span style="color: ${redColor};">${word}</span>`;
+        }
+    });
+
+    return highlightedText;
+}
+
