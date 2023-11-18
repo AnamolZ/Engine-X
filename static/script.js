@@ -17,3 +17,13 @@ function handleInput() {
     }
 }
 
+function updateWPM() {
+    wpmFixed = false;
+    const elapsedTimeInSeconds = (new Date() - startTime) / 1000;
+    const wordCount = (searchInput.value.match(/\b\S+\b/g) || []).length;
+    const wpm = Math.round((wordCount / elapsedTimeInSeconds) * 60);
+
+    if (!wpmFixed) {
+        wpmDisplay.textContent = '🏇🏻 ' + wpm;
+    }
+}
