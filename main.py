@@ -76,3 +76,16 @@ def search_wiki(user_input):
 async def favicon():
     return {"message": "favicon"}
 
+@app.websocket("/ws")
+async def websocket_endpoint(websocket: WebSocket):
+    await websocket.accept()
+    try:
+        while True:
+            data = await websocket.receive_text()
+            try:
+                result_summary = search_wiki(data)
+                await websocket.send_text(result_summary)
+            except Exception as e:
+                logging.error(f"Error in WebSocket communication: {e}")
+    except WebSocketDisconnect:
+        logging.info("WebSocket connection closed")
