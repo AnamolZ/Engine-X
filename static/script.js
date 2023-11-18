@@ -51,3 +51,4 @@ function showSearchResult(data) {
         resultArray.filter(paragraph => paragraph.trim() !== '').join('');
     }, resultArray.length * 10000);
 }
+
