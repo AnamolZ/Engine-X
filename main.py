@@ -75,3 +75,4 @@ def search_wiki(user_input):
 @app.get("/favicon.ico")
 async def favicon():
     return {"message": "favicon"}
+
