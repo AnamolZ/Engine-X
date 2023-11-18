@@ -40,3 +40,16 @@ def get_random_animal_photo(api_key: str = 'pOoUofTGrf9bk53QeVlJF4jUt0akLDdoEgm6
 async def read_root(request: Request, api_key: str = Depends(get_random_animal_photo)):
     photo_url = api_key
     return templates.TemplateResponse("index.html", {"request": request, "photo_url": photo_url})
+
+@app.post("/search")
+async def search(data: dict):
+    query = data.get("query")
+    if not query:
+        raise HTTPException(status_code=422, detail="Missing or empty 'query' field in the request body")
+
+    try:
+        result = search_wiki(query)
+        return {"result": result}
+    except Exception as e:
+        logging.error(f"Error in search_wiki: {e}")
+        raise HTTPException(status_code=500, detail="Internal server error")
