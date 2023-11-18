@@ -67,3 +67,38 @@ function highlightText(text) {
     return highlightedText;
 }
 
+searchInput.addEventListener('keyup', function (event) {
+    if (event.key === 'Enter' && !searchInput.classList.contains('stay-up')) {
+        clearInterval(intervalId);
+        const query = searchInput.value;
+
+        fetch('http://localhost:8000/search', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ query }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            showSearchResult(data);
+        })
+        
+        .catch(error => {
+            console.error('Error:', error);
+        });
+
+        searchInput.value = '';
+        searchContainer.classList.add('animate-up', 'stay-up');
+        wpmFixed = true;
+        updateWPM();
+
+    } else if (event.key === ' ' && !searchInput.classList.contains('stay-up')) {
+        lastSpaceTime = new Date();
+
+    } else if (event.key !== 'Enter' && !searchInput.classList.contains('stay-up')) {
+        if (new Date() - lastSpaceTime < 1000) {
+            updateWPM();
+        }
+    }
+});
